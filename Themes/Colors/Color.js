@@ -5,5 +5,6 @@ const Colors = {
   darkGrey: '#212121',
   COLOR_THEME_SECONDARY: '#00649C',
   COLOR_THEME: '#4DC0EF',
+  offWhite: '#eaeaea',
 };
 export default Colors;
