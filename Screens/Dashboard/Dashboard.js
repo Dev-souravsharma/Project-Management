@@ -8,8 +8,9 @@ import {
   FlatList,
 } from 'react-native';
 import Header from '../../Components/header';
+import NavigationRoutes from '../../Constants/NavigationRoutes';
 import Strings from '../../Constants/strings';
-import {goBack} from '../../Services/NavigationServices';
+import {goBack, navigate} from '../../Services/NavigationServices';
 import Colors from '../../Themes/Colors/Color';
 import Styles from './Style';
 function DashboardScreen() {
@@ -57,14 +58,14 @@ function DashboardScreen() {
           renderItem={({item, index}) => {
             return (
               <View style={Styles.card}>
-                <Text>{item.Project}</Text>
+                <Text style={{color: Colors.black}}>{item.Project}</Text>
               </View>
             );
           }}
           keyExtractor={data => data.id}
         />
         <Pressable
-          onPress={() => Alert.alert('Done')}
+          onPress={() => navigate(NavigationRoutes.Project)}
           style={{
             backgroundColor: Colors.COLOR_THEME_SECONDARY,
             width: 70,
