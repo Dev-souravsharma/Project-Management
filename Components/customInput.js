@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {Platform, StyleSheet, TextInput, View} from 'react-native';
 import Colors from '../Themes/Colors/Color';
 
 function CustomInput(props) {
@@ -17,13 +17,13 @@ const Styles = StyleSheet.create({
     color: Colors.black,
     backgroundColor: Colors.white,
     shadowOffset: {
-      width: 5,
-      height: 5,
+      width: 1,
+      height: 2,
     },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowColor: Colors.black,
     elevation: 7,
-    padding: 12,
+    padding: Platform.OS === 'ios' ? 16 : 12,
     borderRadius: 10,
   },
 });

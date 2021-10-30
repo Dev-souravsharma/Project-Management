@@ -6,6 +6,7 @@ import NavigationRoutes from '../Constants/NavigationRoutes';
 import MainScreen from '../Screens/Main/Main';
 import LoginScreen from '../Screens/Login/Login';
 import SignUpScreen from '../Screens/SignUp/SignUp';
+import DashboardScreen from '../Screens/Dashboard/Dashboard';
 const Stack = createNativeStackNavigator();
 function MainNavigation() {
   return (
@@ -24,6 +25,11 @@ function MainNavigation() {
         <Stack.Screen
           name={NavigationRoutes.SignUp}
           component={SignUpScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NavigationRoutes.DashBoard}
+          component={DashboardScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

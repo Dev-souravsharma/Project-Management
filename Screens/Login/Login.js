@@ -1,10 +1,11 @@
 import React from 'react';
-import {SafeAreaView, Text, View} from 'react-native';
+import {Alert, SafeAreaView, Text, View} from 'react-native';
 import CustomButton from '../../Components/Button';
 import CustomInput from '../../Components/customInput';
 import Header from '../../Components/header';
+import NavigationRoutes from '../../Constants/NavigationRoutes';
 import Strings from '../../Constants/strings';
-import {goBack} from '../../Services/NavigationServices';
+import {goBack, navigate} from '../../Services/NavigationServices';
 import Styles from './Styles';
 function LoginScreen() {
   return (
@@ -29,6 +30,7 @@ function LoginScreen() {
         </View>
         <View style={Styles.buttonContainer}>
           <CustomButton
+            onPress={() => navigate(NavigationRoutes.DashBoard)}
             title={'Login'}
             titleStyle={Styles.buttonTile}
             style={Styles.loginButton}
