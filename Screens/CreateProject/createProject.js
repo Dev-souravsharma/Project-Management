@@ -1,5 +1,11 @@
-import React from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import CustomButton from '../../Components/Button';
 import CustomInput from '../../Components/customInput';
 import Header from '../../Components/header';
@@ -7,7 +13,10 @@ import {goBack} from '../../Services/NavigationServices';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Styles from './Style';
 import {Formik} from 'formik';
+import firestore from '@react-native-firebase/firestore';
+
 function CreateProjectScreen() {
+  const [isLoading, setLoading] = useState(false);
   return (
     <SafeAreaView style={Styles.constainer}>
       <Header title="Create Project" onPress={() => goBack()} />
@@ -19,10 +28,22 @@ function CreateProjectScreen() {
           taskDescription: '',
           startDate: '',
           endDate: '',
-          employee: '',
+          employeeId: '',
           amount: '',
+          projectName: '',
         }}
-        onSubmit={values => console.log(values)}>
+        onSubmit={values => {
+          setLoading(true);
+          firestore()
+            .collection('ProjectData')
+            .doc(values.taskName)
+            .set(values)
+            .then(() => {
+              console.log('User added!');
+              setLoading(false);
+              goBack();
+            });
+        }}>
         {({handleChange, handleBlur, handleSubmit, values}) => (
           <ScrollView>
             <View style={Styles.inputContainer}>
@@ -30,6 +51,13 @@ function CreateProjectScreen() {
                 placeholder="Project ID"
                 onChangeText={handleChange('projectId')}
                 value={values.projectId}
+              />
+            </View>
+            <View style={Styles.inputContainer}>
+              <CustomInput
+                placeholder="Project Name"
+                onChangeText={handleChange('projectName')}
+                value={values.projectName}
               />
             </View>
             <View style={Styles.inputContainer}>
@@ -69,9 +97,9 @@ function CreateProjectScreen() {
             </View>
             <View style={Styles.inputContainer}>
               <CustomInput
-                placeholder="Select Employee"
-                onChangeText={handleChange('employee')}
-                value={values.employee}
+                placeholder="Employee ID"
+                onChangeText={handleChange('employeeId')}
+                value={values.employeeId}
               />
             </View>
             <View style={Styles.inputContainer}>
@@ -92,6 +120,11 @@ function CreateProjectScreen() {
           </ScrollView>
         )}
       </Formik>
+      {isLoading === true ? (
+        <View style={Styles.indicator}>
+          <ActivityIndicator size="large" animating />
+        </View>
+      ) : null}
     </SafeAreaView>
   );
 }

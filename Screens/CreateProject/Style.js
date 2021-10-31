@@ -17,6 +17,13 @@ const Styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 16,
   },
+  indicator: {
+    position: 'absolute',
+    flex: 1,
+    alignSelf: 'center',
+    marginTop: '50%',
+    justifyContent: 'center',
+  },
   buttonTile: {
     color: Colors.white,
   },

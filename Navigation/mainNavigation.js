@@ -8,6 +8,7 @@ import LoginScreen from '../Screens/Login/Login';
 import SignUpScreen from '../Screens/SignUp/SignUp';
 import DashboardScreen from '../Screens/Dashboard/Dashboard';
 import CreateProjectScreen from '../Screens/CreateProject/createProject';
+import ProjectDescriptionScreen from '../Screens/ProjectDescription/ProjectDescription';
 const Stack = createNativeStackNavigator();
 function MainNavigation() {
   return (
@@ -36,6 +37,11 @@ function MainNavigation() {
         <Stack.Screen
           name={NavigationRoutes.Project}
           component={CreateProjectScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NavigationRoutes.Description}
+          component={ProjectDescriptionScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   Text,
@@ -6,6 +6,7 @@ import {
   Pressable,
   Alert,
   FlatList,
+  Image,
 } from 'react-native';
 import Header from '../../Components/header';
 import NavigationRoutes from '../../Constants/NavigationRoutes';
@@ -13,7 +14,28 @@ import Strings from '../../Constants/strings';
 import {goBack, navigate} from '../../Services/NavigationServices';
 import Colors from '../../Themes/Colors/Color';
 import Styles from './Style';
+import firestore from '@react-native-firebase/firestore';
 function DashboardScreen() {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('ProjectData')
+      .onSnapshot(querySnapshot => {
+        const users = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setUsers(users);
+      });
+
+    return () => subscriber();
+  }, []);
+  console.log(users);
   return (
     <SafeAreaView style={Styles.container}>
       <Header title="Dashboard" onPress={() => goBack()} />
@@ -27,7 +49,8 @@ function DashboardScreen() {
             ...Styles.cardStyle,
             ...{backgroundColor: Colors.COLOR_THEME_SECONDARY},
           }}>
-          <Text style={Styles.cardTitle}>Ongoing Projects</Text>
+          <Text style={Styles.cardTitle}>Total Projects</Text>
+          <Text style={Styles.cardTitle}>{users.length}</Text>
         </View>
         <View
           style={{
@@ -54,15 +77,32 @@ function DashboardScreen() {
           </Text>
         </View>
         <FlatList
-          data={Strings.data}
+          data={users}
+          ListEmptyComponent={
+            <View style={{flex: 1}}>
+              <Image
+                style={{
+                  width: 300,
+                  height: 300,
+                  resizeMode: 'contain',
+                  alignSelf: 'center',
+                }}
+                source={require('../../Assessts/Images/office.png')}
+              />
+            </View>
+          }
           renderItem={({item, index}) => {
             return (
-              <View style={Styles.card}>
-                <Text style={{color: Colors.black}}>{item.Project}</Text>
-              </View>
+              <Pressable
+                onPress={() =>
+                  navigate(NavigationRoutes.Description, {data: item})
+                }
+                style={Styles.card}>
+                <Text style={{color: Colors.black}}>{item.projectName}</Text>
+              </Pressable>
             );
           }}
-          keyExtractor={data => data.id}
+          keyExtractor={data => data.taskId}
         />
         <Pressable
           onPress={() => navigate(NavigationRoutes.Project)}

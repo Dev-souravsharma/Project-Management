@@ -1,15 +1,22 @@
 import React from 'react';
-import {Platform, StyleSheet, TextInput, View} from 'react-native';
+import {Platform, StyleSheet, TextInput, Text, View} from 'react-native';
 import Colors from '../Themes/Colors/Color';
 
 function CustomInput(props) {
   return (
-    <TextInput
-      placeholderTextColor="#626262"
-      {...props}
-      style={Styles.inputStyle}
-      placeholder={props.placeholder}
-    />
+    <View>
+      <TextInput
+        placeholderTextColor="#626262"
+        {...props}
+        style={Styles.inputStyle}
+        placeholder={props.placeholder}
+      />
+      {true && (
+        <View style={{marginLeft: 16, paddingTop: 8}}>
+          <Text style={{color: 'red'}}>Enter Field</Text>
+        </View>
+      )}
+    </View>
   );
 }
 const Styles = StyleSheet.create({

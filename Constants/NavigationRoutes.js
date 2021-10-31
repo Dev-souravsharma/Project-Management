@@ -4,5 +4,6 @@ const NavigationRoutes = {
   SignUp: 'SignUpScreen',
   DashBoard: 'DashboardScreen',
   Project: 'CreateProjectScreen',
+  Description: 'ProjectDescriptionScreen',
 };
 export default NavigationRoutes;
