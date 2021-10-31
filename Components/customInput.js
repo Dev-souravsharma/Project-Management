@@ -11,9 +11,9 @@ function CustomInput(props) {
         style={Styles.inputStyle}
         placeholder={props.placeholder}
       />
-      {true && (
+      {props.error && (
         <View style={{marginLeft: 16, paddingTop: 8}}>
-          <Text style={{color: 'red'}}>Enter Field</Text>
+          <Text style={{color: 'red'}}>Please fill value</Text>
         </View>
       )}
     </View>

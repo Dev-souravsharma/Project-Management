@@ -7,7 +7,40 @@ import NavigationRoutes from '../../Constants/NavigationRoutes';
 import Strings from '../../Constants/strings';
 import {goBack, navigate} from '../../Services/NavigationServices';
 import Styles from './Styles';
+import {Formik} from 'formik';
+import schema from '../../Services/validationServices';
+import firestore from '@react-native-firebase/firestore';
 function LoginScreen() {
+  const [users, setUsers] = React.useState([]);
+  React.useEffect(() => {
+    const subscriber = firestore()
+      .collection('Users')
+      .onSnapshot(querySnapshot => {
+        const users = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setUsers(users);
+      });
+
+    return () => subscriber();
+  }, []);
+  console.log(users);
+  function authUser(email, password) {
+    let user = users.filter(item => {
+      return item.email === email && item.password === password;
+    });
+    if (user.length === 0) {
+      Alert.alert('User Not Found', 'Please Check email and password');
+    } else {
+      navigate(NavigationRoutes.DashBoard, {data: users});
+    }
+  }
   return (
     <SafeAreaView style={Styles.container}>
       <Header title="Login" onPress={() => goBack()} />
@@ -21,22 +54,45 @@ function LoginScreen() {
           </Text>
         </View>
       </View>
-      <View style={Styles.inputCont}>
-        <View style={Styles.inputContainer}>
-          <CustomInput placeholder="Enter Email" />
-        </View>
-        <View style={Styles.inputContainer}>
-          <CustomInput placeholder="Enter Password" />
-        </View>
-        <View style={Styles.buttonContainer}>
-          <CustomButton
-            onPress={() => navigate(NavigationRoutes.DashBoard)}
-            title={'Login'}
-            titleStyle={Styles.buttonTile}
-            style={Styles.loginButton}
-          />
-        </View>
-      </View>
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+        }}
+        validationSchema={schema.login}
+        onSubmit={values => {
+          console.log('User added!', values);
+          authUser(values.email, values.password);
+        }}>
+        {({handleChange, handleSubmit, values, errors, touched}) => (
+          <View style={Styles.inputCont}>
+            <View style={Styles.inputContainer}>
+              <CustomInput
+                placeholder="Enter Email"
+                onChangeText={handleChange('email')}
+                value={values.email}
+                error={errors.email && touched.email}
+              />
+            </View>
+            <View style={Styles.inputContainer}>
+              <CustomInput
+                placeholder="Enter Password"
+                onChangeText={handleChange('password')}
+                value={values.password}
+                error={errors.password && touched.password}
+              />
+            </View>
+            <View style={Styles.buttonContainer}>
+              <CustomButton
+                onPress={handleSubmit}
+                title={'Login'}
+                titleStyle={Styles.buttonTile}
+                style={Styles.loginButton}
+              />
+            </View>
+          </View>
+        )}
+      </Formik>
     </SafeAreaView>
   );
 }

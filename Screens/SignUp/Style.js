@@ -84,12 +84,18 @@ const Styles = StyleSheet.create({
     width: '70%',
     alignSelf: 'center',
     marginTop: 16,
+    marginBottom: 16,
   },
   loginButton: {
     backgroundColor: Colors.COLOR_THEME_SECONDARY,
   },
   buttonTile: {
     color: Colors.white,
+  },
+  indicator: {
+    backgroundColor: 'red',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });
 export default Styles;
