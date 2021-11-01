@@ -94,9 +94,7 @@ function DashboardScreen() {
           renderItem={({item, index}) => {
             return (
               <Pressable
-                onPress={() =>
-                  navigate(NavigationRoutes.Description, {data: item})
-                }
+                onPress={() => navigate(NavigationRoutes.Task, {data: item})}
                 style={Styles.card}>
                 <Text style={{color: Colors.black}}>{item.projectName}</Text>
               </Pressable>

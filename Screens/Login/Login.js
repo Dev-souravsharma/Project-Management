@@ -63,6 +63,15 @@ function LoginScreen() {
         onSubmit={values => {
           console.log('User added!', values);
           authUser(values.email, values.password);
+          firestore()
+            .collection('Test')
+            .doc('Project')
+            .collection('Task')
+            .doc('Demo')
+            .set({task: 'This is task'})
+            .then(() => {
+              console.log('User added!');
+            });
         }}>
         {({handleChange, handleSubmit, values, errors, touched}) => (
           <View style={Styles.inputCont}>

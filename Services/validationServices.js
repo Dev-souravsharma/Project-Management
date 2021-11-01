@@ -10,5 +10,12 @@ const schema = {
     password: yup.string().trim().required(),
     confirmPassword: yup.string().trim().required(),
   }),
+  task: yup.object({
+    taskId: yup.string().trim().required(),
+    taskName: yup.string().trim().required(),
+    taskDescription: yup.string().trim().required(),
+    startDate: yup.string().trim().required(),
+    endDate: yup.string().trim().required(),
+  }),
 };
 export default schema;
