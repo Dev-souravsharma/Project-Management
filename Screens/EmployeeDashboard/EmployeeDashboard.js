@@ -13,13 +13,16 @@ import NavigationRoutes from '../../Constants/NavigationRoutes';
 import Strings from '../../Constants/strings';
 import {goBack, navigate} from '../../Services/NavigationServices';
 import Colors from '../../Themes/Colors/Color';
-import Styles from './Style';
+
 import firestore from '@react-native-firebase/firestore';
-function DashboardScreen() {
+import Styles from './Styles';
+function EmployeeDashboardScreen(props) {
+  let email = props.route.params.data;
+  console.log('Email', email);
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const subscriber = firestore()
-      .collection('ProjectData')
+      .collection(email)
       .onSnapshot(querySnapshot => {
         const users = [];
 
@@ -49,7 +52,7 @@ function DashboardScreen() {
             ...Styles.cardStyle,
             ...{backgroundColor: Colors.COLOR_THEME_SECONDARY},
           }}>
-          <Text style={Styles.cardTitle}>Total Projects</Text>
+          <Text style={Styles.cardTitle}>Total Tasks</Text>
           <Text style={Styles.cardTitle}>{users.length}</Text>
         </View>
         <View
@@ -57,7 +60,7 @@ function DashboardScreen() {
             ...Styles.cardStyle,
             ...{backgroundColor: Colors.COLOR_THEME},
           }}>
-          <Text style={Styles.cardTitle}>Completed Projects</Text>
+          <Text style={Styles.cardTitle}>Completed Tasks</Text>
           <Text style={Styles.cardTitle}>0</Text>
         </View>
       </View>
@@ -74,7 +77,7 @@ function DashboardScreen() {
               fontSize: 16,
               fontWeight: '700',
             }}>
-            My Projects
+            My Tasks
           </Text>
         </View>
         <FlatList
@@ -94,35 +97,15 @@ function DashboardScreen() {
           }
           renderItem={({item, index}) => {
             return (
-              <Pressable
-                onPress={() => navigate(NavigationRoutes.Task, {data: item})}
-                style={Styles.card}>
+              <Pressable onPress={() => {}} style={Styles.card}>
                 <Text style={{color: Colors.black}}>{item.projectName}</Text>
               </Pressable>
             );
           }}
           keyExtractor={data => data.taskId}
         />
-        <Pressable
-          onPress={() => navigate(NavigationRoutes.Project)}
-          style={{
-            backgroundColor: Colors.COLOR_THEME_SECONDARY,
-            width: 70,
-            height: 70,
-            borderRadius: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'flex-end',
-            position: 'absolute',
-            bottom: 20,
-            right: 30,
-          }}>
-          <Text style={{fontSize: 40, marginBottom: 4, color: Colors.white}}>
-            +
-          </Text>
-        </Pressable>
       </View>
     </SafeAreaView>
   );
 }
-export default DashboardScreen;
+export default EmployeeDashboardScreen;

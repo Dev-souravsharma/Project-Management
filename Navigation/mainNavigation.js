@@ -12,6 +12,7 @@ import ProjectDescriptionScreen from '../Screens/ProjectDescription/ProjectDescr
 import TaskScreen from '../Screens/TaskList/task';
 import TaskDescriptionScreen from '../Screens/TaskDescription/Style';
 import TaskDescription from '../Screens/TaskDescription/taskDescription';
+import EmployeeDashboardScreen from '../Screens/EmployeeDashboard/EmployeeDashboard';
 const Stack = createNativeStackNavigator();
 function MainNavigation() {
   return (
@@ -55,6 +56,11 @@ function MainNavigation() {
         <Stack.Screen
           name={NavigationRoutes.TaskDescription}
           component={TaskDescription}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NavigationRoutes.EmployeeDashBoard}
+          component={EmployeeDashboardScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

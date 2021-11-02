@@ -37,8 +37,10 @@ function LoginScreen() {
     });
     if (user.length === 0) {
       Alert.alert('User Not Found', 'Please Check email and password');
-    } else {
+    } else if (user.length !== 0 && user.checked === 'Manager') {
       navigate(NavigationRoutes.DashBoard, {data: users});
+    } else {
+      navigate(NavigationRoutes.EmployeeDashBoard, {data: email});
     }
   }
   return (
