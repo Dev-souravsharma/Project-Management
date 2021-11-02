@@ -7,20 +7,43 @@ import {
   Text,
   View,
   ScrollView,
+  FlatList,
+  Image,
 } from 'react-native';
 import CustomButton from '../../Components/Button';
 import CustomInput from '../../Components/customInput';
 import Header from '../../Components/header';
 import NavigationRoutes from '../../Constants/NavigationRoutes';
-import {goBack} from '../../Services/NavigationServices';
+import {goBack, navigate} from '../../Services/NavigationServices';
 import schema from '../../Services/validationServices';
 import Colors from '../../Themes/Colors/Color';
+import firestore from '@react-native-firebase/firestore';
 import Styles from './Style';
 function ProjectDescriptionScreen(props) {
   const [isOpen, setOpen] = React.useState(false);
+  const [isLoading, setLoading] = React.useState(false);
+  const [users, setUsers] = React.useState([]);
   let data = props.route.params.data;
   let email = props.route.params.email;
-  console.log(data, email);
+  React.useEffect(() => {
+    const subscriber = firestore()
+      .collection(email.toString())
+      .onSnapshot(querySnapshot => {
+        const users = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+          });
+        });
+
+        setUsers(users);
+      });
+
+    return () => subscriber();
+  }, []);
+  console.log(data, email, users);
   function HandleModal() {
     return (
       <Modal animationType="slide" transparent={true} visible={isOpen}>
@@ -54,6 +77,14 @@ function ProjectDescriptionScreen(props) {
               validationSchema={schema.task}
               onSubmit={values => {
                 console.log('User added!', values);
+                firestore()
+                  .collection(email)
+                  .doc(`${values.taskId}`)
+                  .set(values)
+                  .then(() => {
+                    console.log('User added!');
+                    goBack();
+                  });
               }}>
               {({handleChange, handleSubmit, values, errors, touched}) => (
                 <View style={Styles.inputCont}>
@@ -113,8 +144,8 @@ function ProjectDescriptionScreen(props) {
   }
   return (
     <SafeAreaView style={Styles.contaniner}>
-      <Header title={'Project Description'} onPress={() => goBack()} />
-      <View style={Styles.card}>
+      <Header title={'Add Task'} onPress={() => goBack()} />
+      {/* <View style={Styles.card}>
         <View style={Styles.flex}>
           <View style={Styles.titleContainer}>
             <Text style={Styles.title}>Project ID :</Text>
@@ -155,7 +186,37 @@ function ProjectDescriptionScreen(props) {
             <Text style={Styles.subtitle}>{data.amount}</Text>
           </View>
         </View>
-      </View>
+      </View> */}
+      <FlatList
+        data={users}
+        ListEmptyComponent={
+          <View style={{flex: 1}}>
+            <Image
+              style={{
+                width: 300,
+                height: 300,
+                resizeMode: 'contain',
+                alignSelf: 'center',
+              }}
+              source={require('../../Assessts/Images/office.png')}
+            />
+          </View>
+        }
+        renderItem={({item, index}) => {
+          return (
+            <Pressable
+              onPress={() =>
+                navigate(NavigationRoutes.TaskDescription, {
+                  data: item,
+                })
+              }
+              style={Styles.cardDash}>
+              <Text style={{color: Colors.black}}>{item.taskName}</Text>
+            </Pressable>
+          );
+        }}
+        keyExtractor={data => data.taskId}
+      />
       <Pressable
         onPress={() => setOpen(true)}
         style={{

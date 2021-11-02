@@ -6,5 +6,6 @@ const NavigationRoutes = {
   Project: 'CreateProjectScreen',
   Description: 'ProjectDescriptionScreen',
   Task: 'TaskScreen',
+  TaskDescription: 'TaskDescription',
 };
 export default NavigationRoutes;
