@@ -50,6 +50,14 @@ function TaskDescription(props) {
             <Text style={Styles.subtitle}>{data.taskDescription}</Text>
           </View>
         </View>
+        <View style={Styles.flex}>
+          <View style={Styles.titleContainer}>
+            <Text style={Styles.title}>Is Complete :</Text>
+          </View>
+          <View style={Styles.titleContainer}>
+            <Text style={Styles.subtitle}>{`${data.isComplete}`}</Text>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );

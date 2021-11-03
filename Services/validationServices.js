@@ -17,5 +17,10 @@ const schema = {
     startDate: yup.string().trim().required(),
     endDate: yup.string().trim().required(),
   }),
+  taskEmp: yup.object({
+    taskId: yup.string().trim().required(),
+    startDate: yup.string().trim().required(),
+    endDate: yup.string().trim().required(),
+  }),
 };
 export default schema;

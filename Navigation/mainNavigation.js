@@ -13,6 +13,7 @@ import TaskScreen from '../Screens/TaskList/task';
 import TaskDescriptionScreen from '../Screens/TaskDescription/Style';
 import TaskDescription from '../Screens/TaskDescription/taskDescription';
 import EmployeeDashboardScreen from '../Screens/EmployeeDashboard/EmployeeDashboard';
+import EmployeeTaskDescriptionScreen from '../Screens/EmployeeTaskDesc/EmployeeTaskDesc';
 const Stack = createNativeStackNavigator();
 function MainNavigation() {
   return (
@@ -61,6 +62,11 @@ function MainNavigation() {
         <Stack.Screen
           name={NavigationRoutes.EmployeeDashBoard}
           component={EmployeeDashboardScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={NavigationRoutes.EmployeeTaskDescription}
+          component={EmployeeTaskDescriptionScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

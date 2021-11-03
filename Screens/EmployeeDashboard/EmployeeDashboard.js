@@ -97,8 +97,15 @@ function EmployeeDashboardScreen(props) {
           }
           renderItem={({item, index}) => {
             return (
-              <Pressable onPress={() => {}} style={Styles.card}>
-                <Text style={{color: Colors.black}}>{item.projectName}</Text>
+              <Pressable
+                onPress={() => {
+                  navigate(NavigationRoutes.EmployeeTaskDescription, {
+                    data: item,
+                    email: email,
+                  });
+                }}
+                style={Styles.card}>
+                <Text style={{color: Colors.black}}>{item.taskName}</Text>
               </Pressable>
             );
           }}

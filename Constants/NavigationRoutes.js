@@ -8,5 +8,6 @@ const NavigationRoutes = {
   Task: 'TaskScreen',
   TaskDescription: 'TaskDescription',
   EmployeeDashBoard: 'EmployeeDashboardScreen',
+  EmployeeTaskDescription: 'EmployeeTaskDescriptionScreen',
 };
 export default NavigationRoutes;

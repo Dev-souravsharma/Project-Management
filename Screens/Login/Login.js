@@ -35,9 +35,10 @@ function LoginScreen() {
     let user = users.filter(item => {
       return item.email === email && item.password === password;
     });
+    console.log('Demo', user);
     if (user.length === 0) {
       Alert.alert('User Not Found', 'Please Check email and password');
-    } else if (user.length !== 0 && user.checked === 'Manager') {
+    } else if (user[0].checked === 'Manager') {
       navigate(NavigationRoutes.DashBoard, {data: users});
     } else {
       navigate(NavigationRoutes.EmployeeDashBoard, {data: email});
